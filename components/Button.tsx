@@ -3,6 +3,7 @@ import { ButtonHTMLAttributes, PropsWithChildren, useMemo } from "react";
 
 type Props = {
   href?: string;
+  onClick?: () => void;
   variant?: "filled" | "default";
 };
 
@@ -10,6 +11,7 @@ export const Button = ({
   href,
   variant = "default",
   children,
+  onClick,
 }: PropsWithChildren<Props>) => {
   const defaultStyles =
     "border-2 rounded-2xl border-red py-2 px-4 my-4 flex flex-1 flex-row justify-center";
@@ -26,6 +28,8 @@ export const Button = ({
       {children}
     </Link>
   ) : (
-    <button className={styles}>{children}</button>
+    <button onClick={onClick} className={styles}>
+      {children}
+    </button>
   );
 };
