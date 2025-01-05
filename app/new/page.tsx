@@ -1,14 +1,51 @@
 "use client";
 
 import { Button } from "@/components/Button";
+import { Workout } from "@/types/Workout";
 import { Pen } from "lucide-react";
-import { createRef, useCallback, useMemo } from "react";
+import { createRef, useCallback, useEffect, useMemo, useState } from "react";
 
 export default function New() {
   const onAddNewExercise = useCallback(() => {}, []);
+  const [workout, setWorkout] = useState<Workout>();
 
   const nameRef = createRef<HTMLInputElement>();
 
+  const parseWorkoutString = (asString: string): Workout | undefined => {
+    const parsedJson = JSON.parse(asString);
+
+    if (!parsedJson) return undefined;
+
+    return parsedJson as Workout;
+  };
+
+  useEffect(() => {
+    if (workout) return;
+
+    const localWorkout = localStorage.getItem("draftWorkout");
+
+    if (!localWorkout) return;
+
+    const parsed = parseWorkoutString(localWorkout);
+
+    if (parsed) {
+      setWorkout(parsed);
+    }
+  }, [workout, parseWorkoutString]);
+
+  const saveDraftWorkout = (newData: Partial<Workout>) => {
+    if (!localStorage) return;
+
+    localStorage.setItem(
+      "draftWorkout",
+      JSON.stringify({
+        ...workout,
+        ...newData,
+      })
+    );
+  };
+
+  console.log(workout);
   return (
     <>
       {/* large screens */}
@@ -19,7 +56,13 @@ export default function New() {
             <input
               className="placeholder-gray-300 focus:placeholder:transparent text-white bg-transparent font-bold pb-2 max-w-96 focus:outline-none"
               placeholder="New workout"
+              defaultValue={workout?.name || undefined}
               ref={nameRef}
+              onBlur={(e) => {
+                if (workout && e.target.value.trim() === workout.name) return;
+
+                saveDraftWorkout({ name: e.target.value.trim() });
+              }}
             />
             <button onClick={() => nameRef?.current?.focus()}>
               <Pen />
