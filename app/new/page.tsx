@@ -4,10 +4,12 @@ import { Button } from "@/components/Button";
 import { Workout } from "@/types/Workout";
 import { Pen } from "lucide-react";
 import { createRef, useCallback, useEffect, useMemo, useState } from "react";
+import { ExerciseForm } from "./ExerciseForm";
 
 export default function New() {
   const onAddNewExercise = useCallback(() => {}, []);
   const [workout, setWorkout] = useState<Workout>();
+  const [showBlankExercise, setShowBlankExercise] = useState(false);
 
   const nameRef = createRef<HTMLInputElement>();
 
@@ -45,7 +47,6 @@ export default function New() {
     );
   };
 
-  console.log(workout);
   return (
     <>
       {/* large screens */}
@@ -68,8 +69,18 @@ export default function New() {
               <Pen />
             </button>
           </div>
+          {workout?.exercises?.map((exercise, i) => (
+            <ExerciseForm
+              exercise={exercise}
+              key={`${i}-${exercise.name}`}
+              onChange={() => {}}
+            />
+          ))}
+          {showBlankExercise && <ExerciseForm onChange={() => {}} />}
           <div>
-            <Button>Add new exercise</Button>
+            <Button onClick={() => setShowBlankExercise(true)}>
+              Add new exercise
+            </Button>
           </div>
         </div>
         {/* right 1/3 - workout summary, timer, save buttons etc */}

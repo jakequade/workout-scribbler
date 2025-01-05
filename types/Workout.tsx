@@ -11,8 +11,9 @@ export type Workout = {
   exercises: Exercise[];
 };
 
-type Exercise = {
+export type Exercise = {
   id: ID;
+  name: string;
   order_placed_in_workout: number;
   sets: ExerciseSet;
 
