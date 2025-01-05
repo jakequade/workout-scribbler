@@ -30,20 +30,14 @@ type DropSet = CommonSetProps & {
 };
 
 type CommonSetProps = {
-  target_weight: number;
-  actual_weight: number;
-  weight_unit: WeightUnit;
   actual_reps: number;
-  target_reps_min: number;
-  target_reps_max: number;
-  target_rpe: number;
+  actual_weight: number;
   comment: string;
+  target_reps_max: number;
+  target_reps_min: number;
+  target_rpe: number;
+  target_weight: number;
 };
-
-enum WeightUnit {
-  Kilograms = "kg",
-  Pounds = "lb",
-}
 
 type ExerciseDefinition = {
   id: ID;
