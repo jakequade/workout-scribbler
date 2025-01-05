@@ -13,8 +13,8 @@ const main = async () => {
   const client = new Pool({
     connectionString: process.env.DATABASE_URL,
   });
+
   const db = drizzle(client);
-  const data: (typeof exerciseDefinitions.$inferInsert)[] = [];
 
   const files = fs.readdirSync("./db/seed_exercises/");
 

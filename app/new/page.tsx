@@ -8,18 +8,11 @@ import { ExerciseForm } from "./ExerciseForm";
 
 export default function New() {
   const onAddNewExercise = useCallback(() => {}, []);
+
   const [workout, setWorkout] = useState<Workout>();
   const [showBlankExercise, setShowBlankExercise] = useState(false);
 
   const nameRef = createRef<HTMLInputElement>();
-
-  const parseWorkoutString = (asString: string): Workout | undefined => {
-    const parsedJson = JSON.parse(asString);
-
-    if (!parsedJson) return undefined;
-
-    return parsedJson as Workout;
-  };
 
   useEffect(() => {
     if (workout) return;
@@ -28,12 +21,16 @@ export default function New() {
 
     if (!localWorkout) return;
 
-    const parsed = parseWorkoutString(localWorkout);
+    const parsed = JSON.parse(localWorkout);
 
-    if (parsed) {
-      setWorkout(parsed);
-    }
-  }, [workout, parseWorkoutString]);
+    if (!parsed) return;
+
+    const asWorkout = parsed as Workout;
+
+    if (!asWorkout) return;
+
+    setWorkout(parsed);
+  }, [workout]);
 
   const saveDraftWorkout = (newData: Partial<Workout>) => {
     if (!localStorage) return;
@@ -50,7 +47,7 @@ export default function New() {
   return (
     <>
       {/* large screens */}
-      <div className="w-fill h-fill flex-row hidden md:flex py-4 px-8">
+      <div className="w-fill h-fill flex-row hidden md:flex pt-8 px-8 max-w-5xl mx-auto">
         {/* left 2/3 - workout planner */}
         <div className="flex flex-auto w-64 flex-col h-screen">
           <div className="flex flex-row">
