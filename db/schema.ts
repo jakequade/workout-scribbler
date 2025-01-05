@@ -103,15 +103,18 @@ export const dropsets = pgTable("dropsets", {
 
 export const equipmentEnum = pgEnum("equipment", [
   "barbell",
-  "dumbell",
-  "machine",
   "bodyweight",
+  "dumbbell",
+  "machine",
+  "other",
 ]);
 
 export const exerciseCategoryEnum = pgEnum("exercise_category", [
-  "strength",
   "cardio",
   "plyometrics",
+  "strength",
+  "stretching",
+  "other",
 ]);
 
 export const exerciseDefinitions = pgTable("exercise_definitions", {

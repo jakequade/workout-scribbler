@@ -1,5 +1,5 @@
 {
-  "id": "e738796c-ac7d-43d4-a655-c01b0da8467b",
+  "id": "71c39190-4969-4209-b81f-f15c678e7ee2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -389,18 +389,19 @@
       "schema": "public",
       "values": [
         "barbell",
+        "bodyweight",
         "dumbell",
-        "machine",
-        "bodyweight"
+        "machine"
       ]
     },
     "public.exercise_category": {
       "name": "exercise_category",
       "schema": "public",
       "values": [
-        "strength",
         "cardio",
-        "plyometrics"
+        "plyometrics",
+        "strength",
+        "stretching"
       ]
     }
   },

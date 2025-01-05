@@ -1,5 +1,5 @@
-CREATE TYPE "public"."equipment" AS ENUM('barbell', 'dumbell', 'machine', 'bodyweight');--> statement-breakpoint
-CREATE TYPE "public"."exercise_category" AS ENUM('strength', 'cardio', 'plyometrics');--> statement-breakpoint
+CREATE TYPE "public"."equipment" AS ENUM('barbell', 'bodyweight', 'dumbell', 'machine');--> statement-breakpoint
+CREATE TYPE "public"."exercise_category" AS ENUM('cardio', 'plyometrics', 'strength', 'stretching');--> statement-breakpoint
 CREATE TABLE "dropsets" (
 	"id" text PRIMARY KEY NOT NULL,
 	"order_placed_in_set" smallint NOT NULL,
