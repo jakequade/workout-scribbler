@@ -53,15 +53,15 @@ export const SearchExercise = ({ onChange }: Props) => {
             }}
             ref={inputRef}
           />
-          <div className="absolute top-10 left-3 w-full bg-black w-full">
+          <div className="absolute top-10 left-3 bg-black flex flex-col">
             {!!suggestions.length && (
-              <div className="bg-red rounded-lg text-white">
+              <div className="bg-red rounded-lg text-white flex flex-col p-2 items-start rounded-b-lg">
                 {suggestions.map((suggestion) => (
                   <button
                     key={suggestion.id}
                     onClick={() => addExercise(suggestion)}
                   >
-                    {suggestion.name}
+                    <p>{suggestion.name}</p>
                   </button>
                 ))}
               </div>

@@ -8,19 +8,23 @@ import { SearchExercise } from "./SearchExercise";
 import dynamic from "next/dynamic";
 
 const NewPage = () => {
-  const onAddNewExercise = useCallback((exercise: Exercise) => {
-    setShowBlankExercise(false);
-    setWorkout((prev) => {
-      if (!prev) return;
-
-      return {
-        ...prev,
-        exercises: [...(prev.exercises || []), exercise],
-      };
-    });
-  }, []);
-
   const [workout, setWorkout] = useState<Workout>();
+
+  const onAddNewExercise = useCallback(
+    async (exercise: Exercise) => {
+      setShowBlankExercise(false);
+
+      const newWorkout = {
+        ...workout,
+        exercises: [...(workout?.exercises || []), exercise],
+      } as Workout;
+
+      setWorkout(newWorkout);
+      localStorage.setItem("draftWorkout", JSON.stringify(newWorkout));
+    },
+    [workout]
+  );
+
   const [showBlankExercise, setShowBlankExercise] = useState(false);
 
   const nameRef = createRef<HTMLInputElement>();
@@ -63,7 +67,7 @@ const NewPage = () => {
         <div className="flex flex-auto w-full max-w-6xl flex-col h-screen">
           <div className="flex flex-row">
             <input
-              className="placeholder-gray-300 focus:placeholder:transparent text-white bg-transparent font-bold pb-2 max-w-96 focus:outline-none"
+              className="placeholder-gray-300 focus:placeholder:transparent text-3xl text-white bg-transparent font-bold pb-2 max-w-96 focus:outline-none"
               placeholder="New workout"
               defaultValue={workout?.name || undefined}
               ref={nameRef}
@@ -81,7 +85,7 @@ const NewPage = () => {
             {workout?.exercises?.length &&
               workout.exercises.map((exercise) => (
                 <div key={exercise.id} className="flex flex-row">
-                  <h1>{exercise.name}</h1>
+                  <h3 className="font-semibold text-2xl">{exercise.name}</h3>
                 </div>
               ))}
           </div>
