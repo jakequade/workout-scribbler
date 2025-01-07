@@ -1,13 +1,22 @@
 "use client";
 
 import { Button } from "@/components/Button";
-import { Workout } from "@/types/Workout";
+import { Exercise, Workout } from "@/types/Workout";
 import { Pen } from "lucide-react";
-import { createRef, useCallback, useEffect, useMemo, useState } from "react";
-import { ExerciseForm } from "./ExerciseForm";
+import { createRef, useCallback, useEffect, useState } from "react";
+import { SearchExercise } from "./SearchExercise";
 
 export default function New() {
-  const onAddNewExercise = useCallback(() => {}, []);
+  const onAddNewExercise = useCallback((exercise: Exercise) => {
+    setWorkout((prev) => {
+      if (!prev) return;
+
+      return {
+        ...prev,
+        exercises: [...prev.exercises, exercise],
+      };
+    });
+  }, []);
 
   const [workout, setWorkout] = useState<Workout>();
   const [showBlankExercise, setShowBlankExercise] = useState(false);
@@ -47,9 +56,9 @@ export default function New() {
   return (
     <>
       {/* large screens */}
-      <div className="w-fill h-fill flex-row hidden md:flex pt-8 px-8 max-w-5xl mx-auto">
+      <div className="w-fill h-fill lg:flex-row flex-col flex pt-8 px-8 max-w-5xl mx-auto">
         {/* left 2/3 - workout planner */}
-        <div className="flex flex-auto w-64 flex-col h-screen">
+        <div className="flex flex-auto w-full max-w-6xl flex-col h-screen">
           <div className="flex flex-row">
             <input
               className="placeholder-gray-300 focus:placeholder:transparent text-white bg-transparent font-bold pb-2 max-w-96 focus:outline-none"
@@ -66,14 +75,7 @@ export default function New() {
               <Pen />
             </button>
           </div>
-          {workout?.exercises?.map((exercise, i) => (
-            <ExerciseForm
-              exercise={exercise}
-              key={`${i}-${exercise.name}`}
-              onChange={() => {}}
-            />
-          ))}
-          {showBlankExercise && <ExerciseForm onChange={() => {}} />}
+          {showBlankExercise && <SearchExercise onChange={onAddNewExercise} />}
           <div>
             <Button onClick={() => setShowBlankExercise(true)}>
               Add new exercise
@@ -85,8 +87,6 @@ export default function New() {
           <h1 className="text-4xl font-semibold">Workout summary</h1>
         </div>
       </div>
-      {/* small screens */}
-      <div className="w-fill md:hidden flex" />
     </>
   );
 }
