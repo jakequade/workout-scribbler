@@ -5,15 +5,17 @@ import { Exercise, Workout } from "@/types/Workout";
 import { Pen } from "lucide-react";
 import { createRef, useCallback, useEffect, useState } from "react";
 import { SearchExercise } from "./SearchExercise";
+import dynamic from "next/dynamic";
 
-export default function New() {
+const NewPage = () => {
   const onAddNewExercise = useCallback((exercise: Exercise) => {
+    setShowBlankExercise(false);
     setWorkout((prev) => {
       if (!prev) return;
 
       return {
         ...prev,
-        exercises: [...prev.exercises, exercise],
+        exercises: [...(prev.exercises || []), exercise],
       };
     });
   }, []);
@@ -75,7 +77,19 @@ export default function New() {
               <Pen />
             </button>
           </div>
-          {showBlankExercise && <SearchExercise onChange={onAddNewExercise} />}
+          <div>
+            {workout?.exercises?.length &&
+              workout.exercises.map((exercise) => (
+                <div key={exercise.id} className="flex flex-row">
+                  <h1>{exercise.name}</h1>
+                </div>
+              ))}
+          </div>
+          <div>
+            {showBlankExercise && (
+              <SearchExercise onChange={onAddNewExercise} />
+            )}
+          </div>
           <div>
             <Button onClick={() => setShowBlankExercise(true)}>
               Add new exercise
@@ -89,4 +103,8 @@ export default function New() {
       </div>
     </>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(NewPage), {
+  ssr: false,
+});
