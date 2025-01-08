@@ -14,14 +14,14 @@ export const Button = ({
   onClick,
 }: PropsWithChildren<Props>) => {
   const defaultStyles =
-    "border-2 rounded-2xl border-red py-2 px-4 my-4 flex flex-1 flex-row justify-center";
+    "border-2 rounded-2xl hover:opacity-50 px-4 my-4 flex flex-1 flex-row justify-center py-2";
 
   const variantStyles = {
-    default: "",
+    default: "border-neutral-50 text-neutral-50 ",
     filled: "bg-white text-black",
   };
 
-  const styles = `${defaultStyles} ${variantStyles[variant]}`;
+  const styles = `${variantStyles[variant]} ${defaultStyles}`;
 
   return href ? (
     <Link className={styles} href={href}>
